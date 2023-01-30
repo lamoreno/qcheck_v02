@@ -20,6 +20,7 @@ Assuming that all the datasets are standardized, the dynamic analysis of qcheck 
 *	Mean
 *	Sd
 * Percentiles
+
 (>) Categorical tabulates:
 For the case of a categorical variable, qcheck presents changes in the participation share of each category over time to find inconsistencies. 
 ------------
