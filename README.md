@@ -4,13 +4,13 @@ QCHECK: Stata Package for Quality Control of Household Surveys
 
 Introduction
 ------------
-(shorthand for ‘quality check’) is a technical package for quality control of survey data, comprehending variable-specific analysis in each dataset. -qcheck- performs two complementary types of assessments: 
+qcheck (shorthand for ‘quality check’) is a technical package for quality control of survey data, comprehending variable-specific analysis in each dataset. -qcheck- performs two complementary types of assessments: 
 (i) within the survey consistency test, we call static qcheck.
 (ii) basic statistics and tabulates to revise evolution over time, which we call dynamic qcheck.   
 ------------
 (i) static qcheck: within the survey consistency test.
 
-The static analysis of qcheck verifies the internal consistency of each variable and its relationship with other variables in the same dataset. That is, it does not only verify that a variable makes sense in itself (e.g, it is not expected to find negative values for age), but also it checks the consistency of one variable with the others (e.g., It is expected that paid workers receive a positive income, rather than zero or missing income). The user is in the ability to create new tests, validations, and crosstabs to automate the assessing of variables across years, countries, regions, among others.
+The static analysis of qcheck verifies the internal consistency of each variable and its relationship with other variables in the same dataset. That is, it does not only verify that a variable makes sense in itself (e.g, it is not expected to find negative values for age), but also it checks the consistency of one variable with the others (e.g., It is expected that paid workers receive a positive income, rather than zero or missing income). The user can to create new tests, validations, and crosstabs to automate the assessing of variables across years, countries, regions, among others.
 
 (ii) dynamic qcheck: consistency test with other sources.
 Assuming that all the datasets are standardized, the dynamic analysis of qcheck verifies the consistency of the same variable over time.
