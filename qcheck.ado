@@ -21,9 +21,14 @@ syntax varlist									///
 		[aweight fweight pweight], 				///
 		[									///
 			SUMmarize				///
-			CATsummarize				///
-			file(string)					///
-			out(string)					///
+			CATsummarize			///
+			STAtic					///
+			file(string)			///
+			out(string)				///
+			TESTname(string)		///
+			TESTPath(string)		///
+			TESTFile(string)		///
+			replace 				///
 		]
 
 *---------------------------------;
@@ -61,7 +66,7 @@ loc weight "[`weight' `exp']"
 *		Dynamic Analysis          ;
 *---------------------------------;
 
-if ("`summarize'"=="") {;
+if ("`summarize'"=="summarize") {;
 
 	qchecksum `varlist' `weight', file("`file'") out(`out');	
 
@@ -71,7 +76,7 @@ if ("`summarize'"=="") {;
 *		Categorical Analysis          ;
 *---------------------------------;
 
-if ("`catsummarize'"=="") {;
+if ("`catsummarize'"=="catsummarize") {;
 
 	qcheckcat `varlist' `weight', file("`file'") out(`out');	
 
@@ -80,6 +85,57 @@ if ("`catsummarize'"=="") {;
 *---------------------------------;
 *		Static Analysis           ;
 *---------------------------------;
+if ("`static'"=="static") {;
+
+	quietly findfile qcheck.ado;
+	global salt_adoeditpath=subinstr("`r(fn)'","/qcheck.ado","",.);
+* check testpath;
+		if ("`testpath'"=="") {;
+			noi di as error "Define a folder to save results, type path" _request(_testpath) ;
+				if ("`testpath'"=="cd") | ("`path'"=="CD") {;
+				local testpath "`c(pwd)'";
+				noi di  _col(10) as result "results will be saved in the current directory: `testpath' ";
+				};
+				glo salt_pathfile "`path'" ;
+				noi di  _col(10) as result "results will be saved in the following directory: `testpath' ";
+			};
+		else {;
+			glo salt_pathfile "`testpath'";
+			noi di  _col(10) as result "results will be saved in the following directory: `testpath' ";
+			};
+* check testfile;
+	if ("`testfile'"=="") {;
+			noi di as error "Test file is not defined, type test file test" _request(_testfile) ;
+			local test `testfile';
+		};
+		if (strmatch("`testfile'","qcheck")==0) {;
+			if (strmatch("`testfile'","qcheck_")==0) {;
+				local test=subinstr("`testfile'", "qcheck_","",.);
+			};
+			else {;
+				local test=subinstr("`testfile'", "qcheck","",.);
+			};
+		};
+		else {; local test "`testfile'"; };
+* load test file
+if (regexm("`load'", `"^load"')) {;
+	qui{ ;  
+		************* RELOAD OPTION;
+		noi di in text "Tests from `testfile'.xlsx. Note: sheets must be named Test and Variable";
+		import excel using "${salt_pathfile}\\`testfile'.xlsx", sheet(Test) case(lower) clear firstrow;
+		cap save "${salt_adoeditpath}\testqcheck_`testname'.dta", `replace' ;
+		if (_rc==602) {; noi di in red "	-> `test' already exists. Try with the option replace"; exit; };
+		
+		import excel using "${salt_pathfile}\\`testfile'.xlsx", sheet(Variables) case(lower) clear firstrow;
+		save "${salt_adoeditpath}\varqcheck_`testname'.dta", `replace' ;
+		noi di in text "Tests from `testfile'.xlsx saved. Both sheets Test and Variables were saved";
+	} ; 
+	exit;
+};
+
+	qcheckstatic `varlist' `weight', file("`file'") out(`out') testname(`testname');	
+
+};
 
 *end static;
 
