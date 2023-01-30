@@ -14,13 +14,17 @@ The static analysis of qcheck verifies the internal consistency of each variable
 
 (ii) dynamic qcheck: consistency test with other sources.
 Assuming that all the datasets are standardized, the dynamic analysis of qcheck verifies the consistency of the same variable over time.
+
 > Basic dynamic qcheck performs different calculations: 
+
 *	Percentage of missing values.
 *	Percentage of zero values.
 *	Mean
 *	Sd
 * Percentiles
+
 > Categorical tabulates:
+
 For the case of a categorical variable, qcheck presents changes in the participation share of each category over time to find inconsistencies. 
 
 ------------
