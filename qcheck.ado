@@ -23,6 +23,7 @@ syntax varlist									///
 			SUMmarize				///
 			CATsummarize			///
 			STAtic					///
+			load					///
 			file(string)			///
 			out(string)				///
 			TESTname(string)		///
